@@ -22,6 +22,7 @@ function barChart(canvas, data, options) {
     this.contentColor = '#eee'; // 内容颜色
     this.data = data;
     this.dataLength = this.data.length;
+    this.colors = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'];
     this.init(options)
 }
 barChart.prototype = {
@@ -113,8 +114,9 @@ barChart.prototype = {
         this.drawChart();
     },
     drawChart: function () {
-        this.ctx.fillStyle = this.fillColor;
         for (var i = 0; i < this.dataLength; i++) {
+            if (this.currentIndex === i) this.ctx.fillStyle = this.hoverColor;
+            else this.ctx.fillStyle = this.fillColor;
             this.ctx.fillRect(this.data[i].left, this.data[i].top, this.data[i].right - this.data[i].left, this.data[i].bottom - this.data[i].top);
             this.ctx.font = '12px Arial';
             this.ctx.textAlign = 'center';
@@ -155,6 +157,7 @@ barChart.prototype = {
             for (var i = 0; i < this.dataLength; i++) {
                 if (ev.offsetX > this.data[i].left && ev.offsetX < this.data[i].right && ev.offsetY > this.data[i].top && ev.offsetY < this.data[i].bottom) {
                     this.currentIndex = i;
+                    console.log('current-----', this.currentIndex)
                 }
             }
             this.drawHover();
@@ -165,11 +168,13 @@ barChart.prototype = {
             if(this.onceMove === -1){
                 this.onceMove = this.currentIndex;
                 this.canvas.style.cursor = 'pointer';
+                this.drawUpdate();
             }
         }else{
             if(this.onceMove !== -1){
                 this.onceMove = -1;
                 this.canvas.style.cursor = 'inherit';
+                this.drawUpdate();
             }
         }
     }
