@@ -52,11 +52,15 @@ barChart.prototype = {
         // y轴线
         this.ctx.moveTo(this.padding + 0.5, this.height - this.padding + 0.5);
         this.ctx.lineTo(this.padding + 0.5, this.padding + 0.5);
+        this.ctx.stroke();
+        this.ctx.closePath();
         // x轴线
+        this.ctx.beginPath();
         this.ctx.moveTo(this.padding + 0.5, this.height - this.padding + 0.5);
         this.ctx.lineTo(this.width - this.padding + 0.5, this.height - this.padding + 0.5);
         // 绘制线
         this.ctx.stroke();
+        this.ctx.closePath();
     },
     drawPoint: function() {
         this.ctx.beginPath();
@@ -70,6 +74,8 @@ barChart.prototype = {
             this.ctx.lineTo(this.padding + xlen + 0.5, this.height - this.padding + 5.5);
             this.ctx.fillText(xAxis, this.padding + xlen - this.xLength / 2, this.height - this.padding + 15);
         }
+        this.ctx.stroke();
+        this.ctx.closePath();
         // y轴
         this.ctx.beginPath();
         this.ctx.textAlign = 'right';
@@ -81,6 +87,7 @@ barChart.prototype = {
             this.ctx.fillText(y, this.padding - 10, this.height - this.padding - ylen + 5)
         }
         this.ctx.stroke();
+        this.ctx.closePath();
     },
     looping: function () {
         this.looped = requestAnimationFrame(this.looping.bind(this));
@@ -157,7 +164,6 @@ barChart.prototype = {
             for (var i = 0; i < this.dataLength; i++) {
                 if (ev.offsetX > this.data[i].left && ev.offsetX < this.data[i].right && ev.offsetY > this.data[i].top && ev.offsetY < this.data[i].bottom) {
                     this.currentIndex = i;
-                    console.log('current-----', this.currentIndex)
                 }
             }
             this.drawHover();
