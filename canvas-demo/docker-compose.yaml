@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  # dev
+  dev:
+    env_file:
+      - .env
+    build: 
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    image: $__DOCKER_PROJ_NAME.dev
+    ports: 
+      - 3333:80
+    volumes:
+      - .:/code
+    container_name: $__DOCKER_PROJ_NAME
